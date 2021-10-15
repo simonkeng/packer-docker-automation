@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eu
+
+# Usage:
+#  ./build $USER $UID
+
+# rename for VS Code syntax highlighting
+# https://github.com/hashicorp/vscode-terraform/issues/638
+cp docker-linux.hcl docker-linux.pkr.hcl
+
+# initialize packer
+packer init .
+
+# format HCL & lint
+packer fmt .
+packer validate .
+
+# build
+packer build --var user=$1 --var uid=$2 .

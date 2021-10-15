@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Usage
+#  ./create_user $USER $UID
+
+LINUX_FLAVOR=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
+
+useradd $1 -u $2 && \
+usermod -a -G wheel $1 && \
+echo "$1	ALL=(ALL)	NOPASSWD: ALL" >> /etc/sudoers
